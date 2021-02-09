@@ -2678,8 +2678,7 @@ void rvWeapon::LaunchProjectiles ( idDict& dict, const idVec3& muzzleOrigin, con
 
 		// Create the projectile
 		proj = static_cast<idProjectile*>(ent);
-		proj->Create( owner, muzzleOrigin + startOffset, dir, NULL, owner->extraProjPassEntity );
-
+		proj->Create(owner, muzzleOrigin + startOffset, dir, NULL, owner->extraProjPassEntity);
 		projBounds = proj->GetPhysics()->GetBounds().Rotate( proj->GetPhysics()->GetAxis() );
 
 		// make sure the projectile starts inside the bounding box of the owner
@@ -2712,11 +2711,15 @@ void rvWeapon::LaunchProjectiles ( idDict& dict, const idVec3& muzzleOrigin, con
 		}
 		
 		// Launch the actual projectile
-		proj->Launch( muzzle_pos + startOffset, dir, pushVelocity, fuseOffset, power );
-		
+		proj->Launch(muzzle_pos + startOffset, dir, pushVelocity, fuseOffset, power);
 		// Increment the projectile launch count and let the derived classes
 		// mess with it if they want.
 		OnLaunchProjectile ( proj );
+		if (num_projectiles == 1){
+			for (int i = 0; i < 20; i++){
+				LaunchProjectiles(dict, muzzleOrigin, muzzleAxis, num_projectiles+1, spread + gameLocal.random.RandomFloat()*20, fuseOffset, power);
+			}
+		}
 	}
 }
 

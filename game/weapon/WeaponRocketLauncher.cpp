@@ -36,12 +36,12 @@ protected:
 
 	void					SetRocketState		( const char* state, int blendFrames );
 
-	rvClientEntityPtr<rvClientEffect>	guideEffect;
+	/*rvClientEntityPtr<rvClientEffect>	guideEffect;
 	idList< idEntityPtr<idEntity> >		guideEnts;
 	float								guideSpeedSlow;
 	float								guideSpeedFast;
 	float								guideRange;
-	float								guideAccelTime;
+	float								guideAccelTime;*/
 
 	rvStateThread						rocketThread;
 
@@ -81,9 +81,9 @@ rvWeaponRocketLauncher::~rvWeaponRocketLauncher
 ================
 */
 rvWeaponRocketLauncher::~rvWeaponRocketLauncher ( void ) {
-	if ( guideEffect ) {
+	/*if ( guideEffect ) {
 		guideEffect->Stop();
-	}
+	}*/
 }
 
 /*
@@ -96,15 +96,15 @@ void rvWeaponRocketLauncher::Spawn ( void ) {
 
 	idleEmpty = false;
 	
-	spawnArgs.GetFloat ( "lockRange", "0", guideRange );
+	//spawnArgs.GetFloat ( "lockRange", "0", guideRange );
 
 	spawnArgs.GetFloat ( "lockSlowdown", ".25", f );
-	attackDict.GetFloat ( "speed", "0", guideSpeedFast );
-	guideSpeedSlow = guideSpeedFast * f;
+	//attackDict.GetFloat ( "speed", "0", guideSpeedFast );
+	//guideSpeedSlow = guideSpeedFast * f;
 	
 	reloadRate = SEC2MS ( spawnArgs.GetFloat ( "reloadRate", ".8" ) );
 	
-	guideAccelTime = SEC2MS ( spawnArgs.GetFloat ( "lockAccelTime", ".25" ) );
+	//guideAccelTime = SEC2MS ( spawnArgs.GetFloat ( "lockAccelTime", ".25" ) );
 	
 	// Start rocket thread
 	rocketThread.SetName ( viewModel->GetName ( ) );
@@ -147,11 +147,11 @@ void rvWeaponRocketLauncher::Think ( void ) {
 	rvWeapon::Think ( );
 
 	// IF no guide range is set then we dont have the mod yet	
-	if ( !guideRange ) {
+	/*if ( !guideRange ) {
 		return;
-	}
+	}*/
 	
-	if ( !wsfl.zoom ) {
+	/*if ( !wsfl.zoom ) {
 		if ( guideEffect ) {
 			guideEffect->Stop();
 			guideEffect = NULL;
@@ -202,7 +202,7 @@ void rvWeaponRocketLauncher::Think ( void ) {
 	} else {
 		guideEffect->SetOrigin ( tr.endpos );
 		guideEffect->SetAxis ( tr.c.normal.ToMat3() );
-	}
+	}*/
 }
 
 /*
@@ -214,14 +214,14 @@ void rvWeaponRocketLauncher::OnLaunchProjectile ( idProjectile* proj ) {
 	rvWeapon::OnLaunchProjectile(proj);
 
 	// Double check that its actually a guided projectile
-	if ( !proj || !proj->IsType ( idGuidedProjectile::GetClassType() ) ) {
+	/*if ( !proj || !proj->IsType ( idGuidedProjectile::GetClassType() ) ) {
 		return;
-	}
+	}*/
 
 	// Launch the projectile
 	idEntityPtr<idEntity> ptr;
 	ptr = proj;
-	guideEnts.Append ( ptr );	
+	//guideEnts.Append ( ptr );	
 }
 
 /*
@@ -239,10 +239,10 @@ rvWeaponRocketLauncher::Save
 =====================
 */
 void rvWeaponRocketLauncher::Save( idSaveGame *saveFile ) const {
-	saveFile->WriteObject( guideEffect );
+	//saveFile->WriteObject( guideEffect );
 
 	idEntity* ent = NULL;
-	saveFile->WriteInt( guideEnts.Num() ); 
+	/*saveFile->WriteInt( guideEnts.Num() ); 
 	for( int ix = 0; ix < guideEnts.Num(); ++ix ) {
 		ent = guideEnts[ ix ].GetEntity();
 		if( ent ) {
@@ -253,7 +253,7 @@ void rvWeaponRocketLauncher::Save( idSaveGame *saveFile ) const {
 	saveFile->WriteFloat( guideSpeedSlow );
 	saveFile->WriteFloat( guideSpeedFast );
 	saveFile->WriteFloat( guideRange );
-	saveFile->WriteFloat( guideAccelTime );
+	saveFile->WriteFloat( guideAccelTime );*/
 	
 	saveFile->WriteFloat ( reloadRate );
 	
@@ -271,10 +271,10 @@ void rvWeaponRocketLauncher::Restore( idRestoreGame *saveFile ) {
 	rvClientEffect* clientEffect = NULL;
 
 	saveFile->ReadObject( reinterpret_cast<idClass *&>(clientEffect) );
-	guideEffect = clientEffect;
+	//guideEffect = clientEffect;
 	
 	saveFile->ReadInt( numEnts );
-	guideEnts.Clear();
+	/*guideEnts.Clear();
 	guideEnts.SetNum( numEnts );
 	for( int ix = 0; ix < numEnts; ++ix ) {
 		saveFile->ReadObject( reinterpret_cast<idClass *&>(ent) );
@@ -284,7 +284,7 @@ void rvWeaponRocketLauncher::Restore( idRestoreGame *saveFile ) {
 	saveFile->ReadFloat( guideSpeedSlow );
 	saveFile->ReadFloat( guideSpeedFast );
 	saveFile->ReadFloat( guideRange );
-	saveFile->ReadFloat( guideAccelTime );
+	saveFile->ReadFloat( guideAccelTime );*/
 	
 	saveFile->ReadFloat ( reloadRate );
 	

@@ -178,9 +178,9 @@ stateResult_t rvWeaponHyperblaster::State_Idle( const stateParms_t& parms ) {
 			SpinDown ( );
 
 			if ( ClipSize() ) {
-				viewModel->SetShaderParm ( HYPERBLASTER_SPARM_BATTERY, (float)AmmoInClip()/ClipSize() );
+				//viewModel->SetShaderParm ( HYPERBLASTER_SPARM_BATTERY, (float)AmmoInClip()/ClipSize() );
 			} else {
-				viewModel->SetShaderParm ( HYPERBLASTER_SPARM_BATTERY, 1.0f );		
+				//viewModel->SetShaderParm ( HYPERBLASTER_SPARM_BATTERY, 1.0f );		
 			}
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
 			return SRESULT_STAGE ( STAGE_WAIT );
@@ -231,9 +231,9 @@ stateResult_t rvWeaponHyperblaster::State_Fire ( const stateParms_t& parms ) {
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 			Attack ( false, 1, spread, 0, 1.0f );
 			if ( ClipSize() ) {
-				viewModel->SetShaderParm ( HYPERBLASTER_SPARM_BATTERY, (float)AmmoInClip()/ClipSize() );
+				//viewModel->SetShaderParm ( HYPERBLASTER_SPARM_BATTERY, (float)AmmoInClip()/ClipSize() );
 			} else {
-				viewModel->SetShaderParm ( HYPERBLASTER_SPARM_BATTERY, 1.0f );		
+				//viewModel->SetShaderParm ( HYPERBLASTER_SPARM_BATTERY, 1.0f );		
 			}
 			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );	
 			return SRESULT_STAGE ( STAGE_WAIT );

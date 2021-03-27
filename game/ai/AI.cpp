@@ -5109,7 +5109,7 @@ bool idAI::IsMeleeNeeded( void )	{
 		//other checks...
 	}
 	
-	return false;
+	return true;
 }
 
 /*

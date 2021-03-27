@@ -20,7 +20,7 @@ public:
 protected:
 
 	rvAIAction			actionMeleeMoveAttack;
-	rvAIAction			actionChaingunAttack;
+	//rvAIAction			actionChaingunAttack;
 
 	virtual bool		CheckActions		( void );
 
@@ -65,7 +65,7 @@ void rvMonsterGrunt::Spawn ( void ) {
 
 	// Custom actions
 	actionMeleeMoveAttack.Init	( spawnArgs, "action_meleeMoveAttack",	NULL,				AIACTIONF_ATTACK );
-	actionChaingunAttack.Init	( spawnArgs, "action_chaingunAttack",	NULL,				AIACTIONF_ATTACK );
+	//actionChaingunAttack.Init	( spawnArgs, "action_chaingunAttack",	NULL,				AIACTIONF_ATTACK );
 	actionLeapAttack.Init		( spawnArgs, "action_leapAttack",		"Torso_LeapAttack",	AIACTIONF_ATTACK );
 
 	// Enraged to start?
@@ -81,7 +81,7 @@ rvMonsterGrunt::Save
 */
 void rvMonsterGrunt::Save ( idSaveGame *savefile ) const {
 	actionMeleeMoveAttack.Save( savefile );
-	actionChaingunAttack.Save( savefile );
+	//actionChaingunAttack.Save( savefile );
 
 	savefile->WriteInt( rageThreshold );
 	savefile->WriteInt( standingMeleeNoAttackTime );
@@ -94,7 +94,7 @@ rvMonsterGrunt::Restore
 */
 void rvMonsterGrunt::Restore ( idRestoreGame *savefile ) {
 	actionMeleeMoveAttack.Restore( savefile );
-	actionChaingunAttack.Restore( savefile );
+	//actionChaingunAttack.Restore( savefile );
 
 	savefile->ReadInt( rageThreshold );
 	savefile->ReadInt( standingMeleeNoAttackTime );
@@ -156,9 +156,9 @@ bool rvMonsterGrunt::CheckActions ( void ) {
 		return true;
 	}
 
-	if ( PerformAction ( &actionEvadeLeft,   (checkAction_t)&idAI::CheckAction_EvadeLeft, &actionTimerEvade )			 ||
+	if ( /*PerformAction ( &actionEvadeLeft,   (checkAction_t)&idAI::CheckAction_EvadeLeft, &actionTimerEvade )			 ||
 			PerformAction ( &actionEvadeRight,  (checkAction_t)&idAI::CheckAction_EvadeRight, &actionTimerEvade )			 ||
-			PerformAction ( &actionJumpBack,	 (checkAction_t)&idAI::CheckAction_JumpBack, &actionTimerEvade )			 ||
+			PerformAction ( &actionJumpBack,	 (checkAction_t)&idAI::CheckAction_JumpBack, &actionTimerEvade )			 ||*/
 			PerformAction ( &actionLeapAttack,  (checkAction_t)&idAI::CheckAction_LeapAttack )	) {
 		return true;
 	} else if ( PerformAction ( &actionMeleeAttack, (checkAction_t)&idAI::CheckAction_MeleeAttack ) ) {
@@ -178,13 +178,13 @@ bool rvMonsterGrunt::CheckActions ( void ) {
 				else if ( standingMeleeNoAttackTime + 2500 < gameLocal.GetTime() )
 				{//we've been standing still and not attacking for at least 2.5 seconds, fall back to ranged attack
 					//allow ranged attack
-					actionRangedAttack.fl.disabled = false;
+					actionRangedAttack.fl.disabled = true;
 				}
 			}
 		}
-		if ( PerformAction ( &actionRangedAttack,(checkAction_t)&idAI::CheckAction_RangedAttack, &actionTimerRangedAttack ) ) {
+		/*if ( PerformAction ( &actionRangedAttack,(checkAction_t)&idAI::CheckAction_RangedAttack, &actionTimerRangedAttack ) ) {
 			return true;
-		}
+		}*/
 	}
 	return false;
 }
@@ -213,7 +213,7 @@ void rvMonsterGrunt::OnTacticalChange ( aiTactical_t oldTactical ) {
 			break;
 
 		default:
-			actionRangedAttack.fl.disabled = false;
+			actionRangedAttack.fl.disabled = true;
 			break;
 	}
 }

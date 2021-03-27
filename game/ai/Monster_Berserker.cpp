@@ -38,7 +38,7 @@ private:
 	rvAIAction			actionChargeAttack;
 
 	bool				Berz_CanHitEnemyFromAnim		( int animNum );
-	bool				CheckAction_RangedAttack		( rvAIAction* action, int animNum );
+//	bool				CheckAction_RangedAttack		( rvAIAction* action, int animNum );
 	bool				CheckAction_ChargeAttack		( rvAIAction* action, int animNum );
 
 	// Global States
@@ -76,8 +76,8 @@ rvMonsterBerserker::Spawn
 void rvMonsterBerserker::Spawn ( void ) {
 	actionPopupAttack.Init  ( spawnArgs, "action_popupAttack",	NULL,					AIACTIONF_ATTACK );
 	actionChargeAttack.Init ( spawnArgs, "action_chargeAttack", "Torso_ChargeAttack",	AIACTIONF_ATTACK );
-	PlayEffect( "fx_ambient_electricity", animator.GetJointHandle( "r_Lowerarm_Real" ), true );
-	PlayEffect( "fx_ambient_electricity_mace", animator.GetJointHandle( "chain9" ), true );
+	//PlayEffect( "fx_ambient_electricity", animator.GetJointHandle( "r_Lowerarm_Real" ), true );
+	//PlayEffect( "fx_ambient_electricity_mace", animator.GetJointHandle( "chain9" ), true );
 }
 
 /*
@@ -169,7 +169,7 @@ bool rvMonsterBerserker::Berz_CanHitEnemyFromAnim( int animNum ) {
 ================
 rvMonsterBerserker::CheckAction_RangedAttack
 ================
-*/
+*//*
 bool rvMonsterBerserker::CheckAction_RangedAttack ( rvAIAction* action, int animNum ) {
 	if ( !enemy.ent || !enemy.fl.inFov ) {
 		return false;
@@ -181,7 +181,7 @@ bool rvMonsterBerserker::CheckAction_RangedAttack ( rvAIAction* action, int anim
 		return false;
 	}
 	return true;
-}
+}*/
 
 /*
 ================
@@ -203,9 +203,9 @@ bool rvMonsterBerserker::CheckActions ( void ) {
 		return true;
 	}
 
-	if ( PerformAction ( &actionEvadeLeft,   (checkAction_t)&idAI::CheckAction_EvadeLeft, &actionTimerEvade )			 ||
+	if ( /*PerformAction ( &actionEvadeLeft,   (checkAction_t)&idAI::CheckAction_EvadeLeft, &actionTimerEvade )			 ||
 			PerformAction ( &actionEvadeRight,  (checkAction_t)&idAI::CheckAction_EvadeRight, &actionTimerEvade )			 ||
-			PerformAction ( &actionJumpBack,	 (checkAction_t)&idAI::CheckAction_JumpBack, &actionTimerEvade )			 ||
+			PerformAction ( &actionJumpBack,	 (checkAction_t)&idAI::CheckAction_JumpBack, &actionTimerEvade )			 ||*/
 			PerformAction ( &actionLeapAttack,  (checkAction_t)&idAI::CheckAction_LeapAttack )	) {
 		return true;
 	} else if ( PerformAction ( &actionMeleeAttack, (checkAction_t)&idAI::CheckAction_MeleeAttack ) ) {
@@ -225,13 +225,13 @@ bool rvMonsterBerserker::CheckActions ( void ) {
 				}
 				else if ( standingMeleeNoAttackTime + 2500 < gameLocal.GetTime() )
 				{//we've been standing still and not attacking for at least 2.5 seconds, fall back to ranged attack
-					actionRangedAttack.fl.disabled = false;
+					actionRangedAttack.fl.disabled = true;
 				}
 			}
 		}
-		if ( PerformAction ( &actionRangedAttack,(checkAction_t)&rvMonsterBerserker::CheckAction_RangedAttack, &actionTimerRangedAttack ) ) {
+		/*if ( PerformAction ( &actionRangedAttack,(checkAction_t)&rvMonsterBerserker::CheckAction_RangedAttack, &actionTimerRangedAttack ) ) {
 			return true;
-		}
+		}*/
 	}
 	return false;
 }
@@ -270,7 +270,7 @@ void rvMonsterBerserker::OnTacticalChange ( aiTactical_t oldTactical ) {
 			break;
 
 		default:
-			actionRangedAttack.fl.disabled = false;
+			actionRangedAttack.fl.disabled = true;
 			break;
 	}
 }
